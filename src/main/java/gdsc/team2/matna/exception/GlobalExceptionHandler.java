@@ -17,6 +17,13 @@ import java.util.HashMap;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException e) {
+        ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
+                "잘못된 요청입니다.");
+        log.error("[error occurred] RuntimeException : " + e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 
     //서버 에러
     @ExceptionHandler(Exception.class)
@@ -27,7 +34,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-
     //잘못된 인자
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handleIllegalArgumentException(Exception e) {
@@ -36,17 +42,15 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-
     //잘못된 http 메소드 호출
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    private ResponseEntity<Object> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
+    private ResponseEntity<ErrorResponse> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
 
         ErrorResponse response = new ErrorResponse(HttpStatus.METHOD_NOT_ALLOWED.value(), e.getMessage());
         log.error("[error occurred] HttpRequestMethodNotSupportedException : " + e.getMessage());
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(response);
 
     }
-
 
     //@Vaild 검증
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -57,11 +61,10 @@ public class GlobalExceptionHandler {
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
-        ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage() , errors);
-        log.error("[error occurred] MethodArgumentNotValidException:" + e.getMessage());
+        ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "유효하지 않은 인자 입력" , errors);
+        log.error("[error occurred] MethodArgumentNotValidException:" + response.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
-
 
     //접근 권한
     @ExceptionHandler(AccessDeniedException.class)
@@ -74,11 +77,20 @@ public class GlobalExceptionHandler {
 
     //존재하지 않는 리소스 호출
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(Exception e) {
+    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException e) {
         ErrorResponse response = new ErrorResponse(HttpStatus.NOT_FOUND.value(),
                 e.getMessage());
         log.error("[error occurred] UsernameNotFoundException : " + e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    //이메일 중복 검증
+    @ExceptionHandler(UserEmailAlreadyExistException.class)
+    public ResponseEntity<ErrorResponse> handleUserEmailAlreadyExistException(UserEmailAlreadyExistException e){
+        ErrorResponse response = new ErrorResponse(HttpStatus.CONFLICT.value(), e.getMessage());
+        log.error("[error occurred] UserEmailAlreadyExistException : " + e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+
     }
 
 }
