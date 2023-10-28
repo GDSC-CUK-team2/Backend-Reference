@@ -18,10 +18,10 @@ spring:
       port: 6379
       host: localhost
 
-logging:
-  level:
-    org.hibernate.SQL: debug
-    org.hibernate.type: trace
+#logging:
+#  level:
+#    org.hibernate.SQL: debug
+#    org.hibernate.type: trace
 
 #로깅 - 배포시 삭제
 decorator:
@@ -30,3 +30,10 @@ decorator:
       enable-logging: true
       multiline: true
       logging: slf4j
+
+#JWT
+app:
+  jwt:
+    secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+    expiration:
+      milliseconds: 604800000
