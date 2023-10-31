@@ -24,7 +24,7 @@ import static java.lang.Boolean.FALSE;
 
 
 @RestController
-@RequestMapping("Matna/restaurants")
+@RequestMapping("Matna/api/restaurants")
 public class ReviewController {
     private final ReviewService reviewService;
 
