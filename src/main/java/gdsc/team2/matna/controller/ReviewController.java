@@ -3,6 +3,7 @@ package gdsc.team2.matna.controller;
 import gdsc.team2.matna.dto.ReviewDTO;
 import gdsc.team2.matna.dto.ReviewResponseDTO;
 import gdsc.team2.matna.entity.ReviewEntity;
+import gdsc.team2.matna.etc.Rating;
 import gdsc.team2.matna.service.ReviewService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +39,7 @@ public class ReviewController {
     public ResponseEntity saveReview(
             @PathVariable Long restaurant_id,
             @RequestParam("userId") Long userId,
-            @RequestParam("rating") String rating,
+            @RequestParam("rating") Rating rating,
             @RequestParam("comment") String comment,
             @RequestParam("image") List<MultipartFile> images){
 
@@ -67,11 +68,12 @@ public class ReviewController {
     public ResponseEntity editReview (
             @PathVariable Long restaurant_id,@PathVariable Long review_id,
             @RequestParam("userId") Long userId,
-            @RequestParam("rating") String rating,
+            @RequestParam("rating") Rating rating,
             @RequestParam("comment") String comment,
             @RequestParam("image") List<MultipartFile> images) {
 
         ReviewDTO reviewDTO = new ReviewDTO(userId, restaurant_id, rating, comment);
+        reviewDTO.setReviewId(review_id);
         reviewDTO.setRestaurantId(restaurant_id);
         reviewDTO.setUpdatedDate(LocalDateTime.now());
 

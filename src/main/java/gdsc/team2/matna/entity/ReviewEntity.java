@@ -1,6 +1,7 @@
 package gdsc.team2.matna.entity;
 
 import gdsc.team2.matna.dto.ReviewDTO;
+import gdsc.team2.matna.etc.Rating;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -22,6 +23,7 @@ import java.util.Date;
 @Table(name="Review")
 public class ReviewEntity {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewId;
@@ -33,7 +35,8 @@ public class ReviewEntity {
     private Long userId;
 
     @Column(name = "rating")
-    private String rating;
+    @Enumerated(EnumType.STRING)
+    private Rating rating;
 
     @Column(name = "comment")
     private String comment;

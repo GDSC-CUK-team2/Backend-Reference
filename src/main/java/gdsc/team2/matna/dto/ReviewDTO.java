@@ -2,6 +2,7 @@ package gdsc.team2.matna.dto;
 
 
 import gdsc.team2.matna.entity.ReviewEntity;
+import gdsc.team2.matna.etc.Rating;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,7 +20,7 @@ public class ReviewDTO
     private Long reviewId;
     private Long restaurantId;
     private Long userId;
-    private String rating;
+    private Rating rating;
     public String comment;
     public LocalDateTime createdDate;
 
@@ -32,7 +33,7 @@ public class ReviewDTO
                 .reviewId(reviewEntity.getReviewId())
                 .restaurantId(reviewEntity.getRestaurantId())
                 .userId(reviewEntity.getUserId())
-                .rating(reviewEntity.getRating())
+                .rating(Rating.valueOf(String.valueOf(reviewEntity.getRating())))
                 .comment(reviewEntity.getComment())
                 .createdDate(reviewEntity.getCreatedDate())
                 .updatedDate(reviewEntity.getUpdatedDate())
@@ -40,17 +41,17 @@ public class ReviewDTO
 
     }
 
-        public ReviewDTO(Long userId,Long restaurantId, String rating, String comment, MultipartFile image){
+        public ReviewDTO(Long userId,Long restaurantId, Rating rating, String comment, MultipartFile image){
             this.userId = userId;
-            this.rating=rating;
+            this.rating= rating;
             this.comment= comment;
             this.image= image;
             this.restaurantId =restaurantId;
         }
 
-    public ReviewDTO(Long userId,Long restaurantId, String rating, String comment){
+    public ReviewDTO(Long userId,Long restaurantId, Rating rating, String comment){
         this.userId = userId;
-        this.rating=rating;
+        this.rating= rating;
         this.comment= comment;
         this.restaurantId =restaurantId;
     }

@@ -6,6 +6,7 @@ import gdsc.team2.matna.dto.ReviewResponseDTO;
 import gdsc.team2.matna.entity.FileEntity;
 import gdsc.team2.matna.entity.ReviewEntity;
 import gdsc.team2.matna.entity.ReviewImageEntity;
+
 import gdsc.team2.matna.repository.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.LockModeType;
@@ -22,6 +23,7 @@ import com.google.cloud.storage.StorageOptions;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -141,6 +143,7 @@ public class ReviewService extends  FileSevice{
                 FileEntity fileEntity = fileEntityOptional.get();
 
                 String logicName = fileEntity.getFileLogicId();
+
                 String uuid = extractUUID(logicName);
                 deleteObject(uuid); //GCP에서 지우기
 
@@ -170,18 +173,17 @@ public class ReviewService extends  FileSevice{
                         System.out.println(reviewImageEntities);
                         for (ReviewImageEntity imageEntity : reviewImageEntities) {
                             //파일 Repo에서 파일 Entity 가져오기
-                            Optional<FileEntity> fileEntityOptional = fileRepository.findById(imageEntity.getFileId());
+                      FileEntity fileEntity = fileRepository.findById(imageEntity.getFileId()).get();
 
-                            if (fileEntityOptional.isPresent()) {
-                                FileEntity fileEntity = fileEntityOptional.get();
+                            if (fileEntity != null) {
 
                                 String logicName = fileEntity.getFileLogicId();
-                                String uuid = extractUUID(logicName);
-                                deleteObject(uuid); //GCP에서 지우기
+                                System.out.println("logicName:"+logicName);
+
+                                deleteObject(logicName); //GCP에서 지우기
 
                                 reviewImageRepository.delete(imageEntity);
                                 fileRepository.delete(fileEntity);
-
 
                             } else {
                                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("파일 찾을 수 없습니다.");
@@ -216,7 +218,7 @@ public class ReviewService extends  FileSevice{
             //리뷰 아이디가 존재하는지
             if (reviewRepository.existsById(reviewId)) {
                 //해당하는 reviewEntity 받아옴
-                ReviewEntity reviewEntity = reviewRepository.findById(reviewId).orElse(null);
+                ReviewEntity reviewEntity = reviewRepository.findById(reviewId).get();
 
                 if (reviewEntity.getUserId().equals(reviewDTO.getUserId())) {
                     //entity와 현재 들어온 아이디 일치하는지 확인
@@ -224,34 +226,28 @@ public class ReviewService extends  FileSevice{
                     if (!images.isEmpty()) {
                         //수정하려는 이미지가 있는 경우
                         //기존에는 이미지가 존재했는지 확인
-                        if (reviewImageRepository.existsById(reviewId)) {
+
+                        List<ReviewImageEntity> reviewImageEntities = reviewImageRepository.findAllByReviewId(reviewId);
+                        if (!reviewImageEntities.isEmpty()) {
                             //이미지를 지우기
 
-                            List<ReviewImageEntity> reviewImageEntities = reviewImageRepository.findAllByReviewId(reviewId);
+//                            List<ReviewImageEntity> reviewImageEntities = reviewImageRepository.findAllByReviewId(reviewId);
                             if (reviewImageEntities != null) {
-
                                 for (ReviewImageEntity imageEntity : reviewImageEntities) {
                                     //파일 Repo에서 파일 Entity 가져오기
-                                    Optional<FileEntity> fileEntityOptional;
-                                    fileEntityOptional = fileRepository.findById(imageEntity.getFileId());
+                                    Optional<FileEntity> fileEntityOptional = fileRepository.findById(imageEntity.getFileId());
 
                                     if (fileEntityOptional.isPresent()) {
                                         FileEntity fileEntity = fileEntityOptional.get();
 
                                         String logicName = fileEntity.getFileLogicId();
-                                        String uuid = extractUUID(logicName);
-                                        deleteObject(uuid); //GCP에서 지우기
+                                        deleteObject(logicName); //GCP에서 지우기
 
                                         reviewImageRepository.delete(imageEntity);
-                                        fileRepository.delete(fileEntity);
+                                        fileRepository.deleteById(fileEntity.getFileId());
 
-                                    } else {
-                                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("파일 찾을 수 없습니다.");
                                     }
-
                                 }
-                                reviewRepository.deleteById(reviewId);
-                                return ResponseEntity.ok("리뷰가 수정되었습니다");
                             }
                         }
                         //업로드 진행

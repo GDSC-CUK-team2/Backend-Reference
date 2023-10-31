@@ -39,7 +39,8 @@ public class FileSevice {
 
     public static String extractUUID(String url) {
         String uuid = null;
-        String regex = "https://storage.cloud.google.com/matna-bucket/([a-f0-9-]+)";
+        String regex = "https://storage.cloud.google.com/matna-bucket/([a-f0-9-]+\\.[a-z]+)";
+
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(url);
 
@@ -56,7 +57,7 @@ public class FileSevice {
         List<String> fullImageUrls = new ArrayList<>();
         for (MultipartFile image : images) {
             //UUID 이름으로 만든다
-            String uuidFileName = generateUUIDFileName(image) + ".png"; // 파일 확장자 추가
+            String uuidFileName = generateUUIDFileName(image); // 파일 확장자 추가
             BlobInfo blobInfo = storage.create(
                     BlobInfo.newBuilder(matnabucket, uuidFileName)
                             .setContentType(image.getContentType())
@@ -92,7 +93,9 @@ public class FileSevice {
     }
 
     //GCP에서 파일 제거하는 함수
-    public static void deleteObject(String objectName) {
+    public static void deleteObject(String storedName) {
+
+        String objectName = extractUUID(storedName);
 
         String projectId = "applied-card-403302";
         String bucketName = "matna-bucket";
