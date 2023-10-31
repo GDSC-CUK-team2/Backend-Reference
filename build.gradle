@@ -28,13 +28,31 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.boot:spring-boot-starter-tomcat:2.6.0'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.20'
+
+
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+
+	//gcp
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter', version: '1.2.8.RELEASE'
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-storage', version: '1.2.8.RELEASE'
+	implementation 'com.google.api-client:google-api-client:1.31.1'
+	implementation 'com.google.apis:google-api-services-iamcredentials:v1-rev20211203-2.0.0'
+	implementation group: 'com.google.cloud', name: 'google-cloud-storage', version: '2.4.0'
+
+
+	dependencies {
+		implementation platform('com.google.cloud:spring-cloud-gcp-dependencies:4.8.2')
+		implementation 'org.springframework.cloud:spring-cloud-gcp-starter'
+	}
 
 	//로깅 - 배포시 삭제
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
@@ -54,6 +72,8 @@ dependencies {
 
 	//swagger
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+
+
 }
 
 tasks.named('test') {
