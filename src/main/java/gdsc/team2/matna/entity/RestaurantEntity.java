@@ -16,10 +16,10 @@ public class RestaurantEntity {
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "restaurant_id")
+    @Column
     private Long restaurantId;
 
-    @Column(name = "restaurant_name")
+    @Column
     @NotNull
     private String restaurantName;
 

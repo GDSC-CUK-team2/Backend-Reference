@@ -24,7 +24,7 @@ import static java.lang.Boolean.FALSE;
 
 
 @RestController
-@RequestMapping("Matna/api/restaurants")
+@RequestMapping("api/restaurants")
 public class ReviewController {
     private final ReviewService reviewService;
 
@@ -35,16 +35,16 @@ public class ReviewController {
 
 
     //댓글 작성
-    @PostMapping("/{restaurant_id}/reviews")
+    @PostMapping("/{restaurantId}/reviews")
     public ResponseEntity saveReview(
-            @PathVariable Long restaurant_id,
+            @PathVariable Long restaurantId,
             @RequestParam("userId") Long userId,
             @RequestParam("rating") Rating rating,
             @RequestParam("comment") String comment,
             @RequestParam("image") List<MultipartFile> images){
 
-        ReviewDTO reviewDTO = new ReviewDTO( userId,restaurant_id,rating,comment);
-        reviewDTO.setRestaurantId(restaurant_id);
+        ReviewDTO reviewDTO = new ReviewDTO( userId,restaurantId,rating,comment);
+        reviewDTO.setRestaurantId(restaurantId);
         reviewDTO.setCreatedDate(LocalDateTime.now());
 
         ResponseEntity response = reviewService.reviewSave(reviewDTO,images);
@@ -53,31 +53,31 @@ public class ReviewController {
     }
 
     //댓글조회
-    @GetMapping("/{restaurant_id}/reviews")
-    public List<ReviewResponseDTO> getReview(@PathVariable Long restaurant_id){
-        return reviewService.getReviews(restaurant_id);
+    @GetMapping("/{restaurantId}/reviews")
+    public List<ReviewResponseDTO> getReview(@PathVariable Long restaurantId){
+        return reviewService.getReviews(restaurantId);
     }
 
     //댓글 삭제
-    @DeleteMapping("/{restaurant_id}/reviews/{review_id}")
-    public void deleteReview(@PathVariable Long restaurant_id,@PathVariable Long review_id) {
-        reviewService.deleteReview(restaurant_id, review_id);
+    @DeleteMapping("/{restaurantId}/reviews/{reviewId}")
+    public void deleteReview(@PathVariable Long restaurantId,@PathVariable Long reviewId) {
+        reviewService.deleteReview(restaurantId, reviewId);
     }
     //뎃글수정
-    @PatchMapping ("/{restaurant_id}/reviews/{review_id}")
+    @PatchMapping ("/{restaurantId}/reviews/{reviewId}")
     public ResponseEntity editReview (
-            @PathVariable Long restaurant_id,@PathVariable Long review_id,
+            @PathVariable Long restaurantId,@PathVariable Long reviewId,
             @RequestParam("userId") Long userId,
             @RequestParam("rating") Rating rating,
             @RequestParam("comment") String comment,
             @RequestParam("image") List<MultipartFile> images) {
 
-        ReviewDTO reviewDTO = new ReviewDTO(userId, restaurant_id, rating, comment);
-        reviewDTO.setReviewId(review_id);
-        reviewDTO.setRestaurantId(restaurant_id);
+        ReviewDTO reviewDTO = new ReviewDTO(userId, restaurantId, rating, comment);
+        reviewDTO.setReviewId(reviewId);
+        reviewDTO.setRestaurantId(restaurantId);
         reviewDTO.setUpdatedDate(LocalDateTime.now());
 
-            ResponseEntity response = reviewService.modifyReview(review_id, reviewDTO, images);
+            ResponseEntity response = reviewService.modifyReview(reviewId, reviewDTO, images);
             return response;
 
 

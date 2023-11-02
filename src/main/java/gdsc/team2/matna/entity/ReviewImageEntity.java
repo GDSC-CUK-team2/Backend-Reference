@@ -18,11 +18,11 @@ import java.io.Serializable;
 public class ReviewImageEntity {
 
     @Id
-    @Column(name="review_id")
+    @Column
     private Long reviewId;
 
     @Id
-    @Column(name="file_id")
+    @Column
     private Long fileId;
 
 }

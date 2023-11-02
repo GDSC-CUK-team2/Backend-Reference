@@ -19,15 +19,17 @@ public class FileEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "file_id")
+    @Column
     private Long fileId;
 
-    @Column(name = "file_logic_id")
+
     @NotNull
+    @Column
     private String fileLogicId;
 
-    @Column(name = "file_org_nm")
+
     @NotNull
+    @Column
     private String fileOrgName;
 
 

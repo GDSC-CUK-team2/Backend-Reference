@@ -28,34 +28,28 @@ public class ReviewEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewId;
 
-    @Column(name = "restaurant_id")
+    @Column
     private Long restaurantId;
 
-    @Column(name = "user_id")
+    @Column
     private Long userId;
 
-    @Column(name = "rating")
+    @Column
     @Enumerated(EnumType.STRING)
     private Rating rating;
 
-    @Column(name = "comment")
+    @Column
     private String comment;
 
 
 
-//    @Column(name = "created_date")
-//    private LocalDateTime createdDate;
-//
-//    @Column(name = "updated_date")
-//    private LocalDateTime updatedDate;
-
     @CreatedDate
-    @Column(name = "created_date", updatable = false,nullable = false)
+    @Column(updatable = false,nullable = false)
     @Convert(converter = Jsr310JpaConverters.LocalDateTimeConverter.class)
     private LocalDateTime createdDate;
 
     @LastModifiedDate
-    @Column(name = "updated_date")
+    @Column
     @Convert(converter = Jsr310JpaConverters.LocalDateTimeConverter.class)
     private LocalDateTime updatedDate;
 
