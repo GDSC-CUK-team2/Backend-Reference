@@ -46,8 +46,7 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
-       // TODO: GCP에 넣어 둘 기본 이미지 url로 수정
-        this.profileUrl = "임시값";
+        this.profileUrl = "https://storage.cloud.google.com/matna-bucket/default-profile.jpg";
         this.roles = Collections.singletonList(Role.ROLE_USER.name());
     }
 
