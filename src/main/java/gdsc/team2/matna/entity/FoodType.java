@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
+@Getter @Setter
 public class FoodType {
 
     @Id
@@ -21,4 +21,10 @@ public class FoodType {
     @OneToMany(mappedBy = "foodType", cascade = CascadeType.ALL)
     private List<RestaurantFoodType> restaurantFoodTypes = new ArrayList<>();
 
+    // 생성자 메소드
+    public static FoodType createFoodType (String name) {
+        FoodType foodType = new FoodType();
+        foodType.setName(name);
+        return foodType;
+    }
 }

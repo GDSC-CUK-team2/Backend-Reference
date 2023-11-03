@@ -3,6 +3,7 @@ package gdsc.team2.matna.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -13,6 +14,10 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 @Getter @Setter
 public class Restaurant extends BaseTime {
+
+    protected Restaurant(){ // 기본 생성자 사용방지 createRestaurant 메소드 사용할 것
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "restaurant_id")
@@ -26,7 +31,7 @@ public class Restaurant extends BaseTime {
     @Embedded
     private Address address;
 
-    // 메뉴 추후 추가
+    // TODO: 11/2/23 메뉴추가
 
     private String open;
 
@@ -39,11 +44,40 @@ public class Restaurant extends BaseTime {
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<RestaurantFoodType> restaurantFoodTypes = new ArrayList<>();
 
-    // 이미지 추가
+    // TODO: 11/2/23 이미지 추가
 
-    // 연관관계 메서드 ..? 이게 맞나..?
-    public void addRestaurantFoodTypes(RestaurantFoodType restaurantFoodType) {
-        restaurantFoodTypes.add(restaurantFoodType);
-        restaurantFoodType.setRestaurant(this);
+    // 연관관계 메서드
+    public void setRestaurantFoodTypes(List<RestaurantFoodType> list) {
+        for (RestaurantFoodType restaurantFoodType : list) {
+            if (!this.restaurantFoodTypes.contains(restaurantFoodType)) {
+                this.restaurantFoodTypes.add(restaurantFoodType);
+                restaurantFoodType.setRestaurant(this);
+            }
+        }
     }
+
+    // 생성자 메서드
+    public static Restaurant createRestaurant(String name, Address address, List<RestaurantFoodType> list){
+        Restaurant restaurant = new Restaurant();
+        restaurant.setName(name);
+        restaurant.setAddress(address);
+        restaurant.setRestaurantFoodTypes(list);
+        return restaurant;
+    }
+
+    // 비즈니스 로직
+    /**
+     * 조회수 증가
+     */
+    public void addView() {
+        this.view ++;
+    }
+
+    /**
+     *  리뷰 개수 증가
+     */
+    public void addReview() {
+        this.review ++;
+    }
+
 }
