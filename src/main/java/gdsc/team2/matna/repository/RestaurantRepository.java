@@ -1,10 +1,17 @@
 package gdsc.team2.matna.repository;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import gdsc.team2.matna.dto.RestaurantSearchDto;
+import gdsc.team2.matna.entity.QFoodType;
+import gdsc.team2.matna.entity.QRestaurant;
+import gdsc.team2.matna.entity.QRestaurantFoodType;
 import gdsc.team2.matna.entity.Restaurant;
 import jakarta.persistence.EntityManager;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import javax.naming.directory.SearchResult;
 import java.util.List;
 
 
@@ -26,9 +33,20 @@ public class RestaurantRepository {
         return em.find(Restaurant.class, id);
     }
 
-    public List<Restaurant> findAll() {
-        return em.createQuery("select r from Restaurant r", Restaurant.class)
-                .getResultList();
+    // TODO: 11/3/23 (이름 or 지역) and 카테고리로 검색되는 기능
+    public List<Restaurant> findAll(RestaurantSearchDto restaurantSearch) {
+        JPAQueryFactory query = new JPAQueryFactory(em);
+        QRestaurant restaurant = QRestaurant.restaurant;
+        QRestaurantFoodType restaurantFoodType = QRestaurantFoodType.restaurantFoodType;
+        QFoodType foodType = QFoodType.foodType;
+
+        Long count = query.from(restaurant).fetchCount();
+
+        return query.select(restaurant)
+                .from(restaurant)
+                .where()
+                .offset(restaurantSearch.getPage())
+                .fetch();
     }
 
     public List<Restaurant> findByName(String name) {
@@ -37,8 +55,16 @@ public class RestaurantRepository {
                 .getResultList();
     }
 
-    // TODO: 11/3/23 (이름 or 지역) and 카테고리로 검색되는 기능
-//    public List<Restaurant> findAll(RestaurantSearch restaurantSearch) {
-//    }
+    public List<Restaurant> findAllFetchJoin(RestaurantSearchDto restaurantSearch) {
+        return em.createQuery(
+                "select r from Restaurant r",Restaurant.class
+        ).getResultList();
+    }
+
+    @Data
+    class PageLimit{
+        private Integer offset;
+        private Integer limit;
+    }
 
 }

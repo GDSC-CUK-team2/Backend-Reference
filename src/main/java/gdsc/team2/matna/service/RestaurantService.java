@@ -6,10 +6,9 @@ import gdsc.team2.matna.entity.Restaurant;
 import gdsc.team2.matna.entity.RestaurantFoodType;
 import gdsc.team2.matna.repository.FoodTypeRepository;
 import gdsc.team2.matna.repository.RestaurantRepository;
-import gdsc.team2.matna.repository.RestaurantSearch;
+import gdsc.team2.matna.dto.RestaurantSearchDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -33,6 +32,12 @@ public class RestaurantService {
         String[] splitAddress = stringAddress.split(" ");
         Address address = new Address(splitAddress[0], splitAddress[1], splitAddress[2], splitAddress[3]);
 
+        // 식당 생성
+        Restaurant restaurant = Restaurant.createRestaurant(name, address, new ArrayList<>());
+
+        // 식당 저장, 다대다 테이블의 경우 cascade ALL에 의해 수정 불필요
+        restaurantRepository.save(restaurant);
+
         // foodTypeNames -> RestaurantFoodType list
         List<FoodType> foodTypeList = new ArrayList<>();
         List<RestaurantFoodType> restaurantFoodlist = new ArrayList<>();
@@ -41,15 +46,9 @@ public class RestaurantService {
             foodTypeList.add(foodType);
         }
         for (FoodType foodType : foodTypeList) {
-            RestaurantFoodType restaurantFoodType = RestaurantFoodType.createRestaurantFoodType(foodType);
+            RestaurantFoodType restaurantFoodType = RestaurantFoodType.createRestaurantFoodType(restaurant, foodType);
             restaurantFoodlist.add(restaurantFoodType);
         }
-
-        // 식당 생성
-        Restaurant restaurant = Restaurant.createRestaurant(name, address, restaurantFoodlist);
-
-        // 식당 저장, 다대다 테이블의 경우 cascade ALL에 의해 수정 불필요
-        restaurantRepository.save(restaurant);
 
         return restaurant.getId();
 
@@ -58,8 +57,8 @@ public class RestaurantService {
     /**
      * 식당 조회
      */
-    public List<Restaurant> findRestaurants() {
-        return restaurantRepository.findAll();
+    public List<Restaurant> findRestaurants(RestaurantSearchDto restaurantSearchDto) {
+        return restaurantRepository.findAllFetchJoin(restaurantSearchDto);
     }
 
     /**

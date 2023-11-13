@@ -46,16 +46,6 @@ public class Restaurant extends BaseTime {
 
     // TODO: 11/2/23 이미지 추가
 
-    // 연관관계 메서드
-    public void setRestaurantFoodTypes(List<RestaurantFoodType> list) {
-        for (RestaurantFoodType restaurantFoodType : list) {
-            if (!this.restaurantFoodTypes.contains(restaurantFoodType)) {
-                this.restaurantFoodTypes.add(restaurantFoodType);
-                restaurantFoodType.setRestaurant(this);
-            }
-        }
-    }
-
     // 생성자 메서드
     public static Restaurant createRestaurant(String name, Address address, List<RestaurantFoodType> list){
         Restaurant restaurant = new Restaurant();
@@ -63,6 +53,11 @@ public class Restaurant extends BaseTime {
         restaurant.setAddress(address);
         restaurant.setRestaurantFoodTypes(list);
         return restaurant;
+    }
+
+    // 연관관계 메서드
+    public void addRestaurantFoodTypes(RestaurantFoodType restaurantFoodType) {
+        this.restaurantFoodTypes.add(restaurantFoodType);
     }
 
     // 비즈니스 로직

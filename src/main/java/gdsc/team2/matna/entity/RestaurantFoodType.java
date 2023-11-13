@@ -1,5 +1,6 @@
 package gdsc.team2.matna.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ public class RestaurantFoodType {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "restaurant_id")
+    @JsonIgnore
     private Restaurant restaurant;
 
     @ManyToOne(fetch = LAZY)
@@ -26,9 +28,14 @@ public class RestaurantFoodType {
 
 
     // 생성자 메소드
-    public static RestaurantFoodType createRestaurantFoodType(FoodType foodType) {
+    public static RestaurantFoodType createRestaurantFoodType(Restaurant restaurant, FoodType foodType) {
         RestaurantFoodType restaurantFoodType = new RestaurantFoodType();
         restaurantFoodType.setFoodType(foodType);
+        restaurantFoodType.setRestaurant(restaurant);
+        // 연관 관계
+        restaurant.addRestaurantFoodTypes(restaurantFoodType);
+        foodType.addRestaurantFoodTypes(restaurantFoodType);
+
         return restaurantFoodType;
     }
 
