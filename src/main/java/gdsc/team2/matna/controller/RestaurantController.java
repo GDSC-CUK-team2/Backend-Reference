@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/restaurants")
+@RequestMapping("/api/restaurants/test")
 public class RestaurantController {
 
     private final RestaurantService restaurantService;
