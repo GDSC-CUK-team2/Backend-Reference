@@ -65,12 +65,9 @@ public class KakaoMapService {
                 }
                 Shop shop = Shop.createShop(shopUid);
                 shopRepository.save(shop);
-
             }
         }
-
-
-        // result
         return response;
     }
+
 }

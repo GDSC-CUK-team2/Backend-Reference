@@ -9,10 +9,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ResponseStatusException;
 import gdsc.team2.matna.service.KakaoMapService;
@@ -31,7 +28,7 @@ public class ShopController {
     private final ShopService shopService;
 
     @GetMapping("")
-    public GetListResponse getList(@RequestParam(required = false) String page,
+    public GetListResponse search(@RequestParam(required = false) String page,
                                    @RequestParam(required = false) String keyword,
                                    @RequestParam(required = false) String x,
                                    @RequestParam(required = false) String y,
