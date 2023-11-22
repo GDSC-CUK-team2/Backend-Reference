@@ -2,6 +2,7 @@ package gdsc.team2.matna.controller;
 
 import gdsc.team2.matna.entity.Address;
 import gdsc.team2.matna.entity.Shop;
+import gdsc.team2.matna.exception.ResourceNotFoundException;
 import gdsc.team2.matna.exception.ShopSearchFailException;
 import gdsc.team2.matna.repository.ShopRepository;
 import gdsc.team2.matna.service.ShopService;
@@ -35,7 +36,7 @@ public class ShopController {
                                    @RequestParam(required = false) String y,
                                    @RequestParam(required = false) String radius) {
         if (keyword == null || keyword.isEmpty()) {
-            throw new ShopSearchFailException("keyword는 필수 입력 필드입니다.");
+            throw new ResourceNotFoundException("keyword는 필수 입력 필드입니다.");
         }
         try {
             Map<?, ?> kakaoMapData = kakaoMapService.get(keyword, page, x, y, radius);

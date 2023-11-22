@@ -101,12 +101,4 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    // 존재하지 않는 음식점
-    @ExceptionHandler(ShopNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleShopNotFoundException(ShopNotFoundException e){
-        ErrorResponse response = new ErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage());
-        log.error("[error occurred] ShopNotFoundException : " + e.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-    }
-
 }
