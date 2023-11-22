@@ -1,6 +1,7 @@
 package gdsc.team2.matna.service;
 
 import gdsc.team2.matna.entity.Shop;
+import gdsc.team2.matna.exception.ShopNotFoundException;
 import gdsc.team2.matna.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class ShopService {
         if (shop.isPresent()) {
             return shop.get();
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "404: Not found");
+            throw new ShopNotFoundException("음식점을 찾을 수 없습니다.");
         }
     }
 
@@ -28,7 +29,7 @@ public class ShopService {
         if (shop.isPresent()) {
             return shop.get();
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "404: Not found");
+            throw new ShopNotFoundException("음식점을 찾을 수 없습니다.");
         }
     }
 }

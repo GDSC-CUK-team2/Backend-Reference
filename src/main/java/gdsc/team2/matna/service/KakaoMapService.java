@@ -67,6 +67,7 @@ public class KakaoMapService {
                 shopRepository.save(shop);
             }
         }
+
         return response;
     }
 

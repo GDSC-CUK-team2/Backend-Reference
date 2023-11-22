@@ -2,6 +2,7 @@ package gdsc.team2.matna.controller;
 
 import gdsc.team2.matna.entity.Address;
 import gdsc.team2.matna.entity.Shop;
+import gdsc.team2.matna.exception.ShopSearchFailException;
 import gdsc.team2.matna.repository.ShopRepository;
 import gdsc.team2.matna.service.ShopService;
 import lombok.AllArgsConstructor;
@@ -34,7 +35,7 @@ public class ShopController {
                                    @RequestParam(required = false) String y,
                                    @RequestParam(required = false) String radius) {
         if (keyword == null || keyword.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "검색어를 입력하세요");
+            throw new ShopSearchFailException("keyword는 필수 입력 필드입니다.");
         }
         try {
             Map<?, ?> kakaoMapData = kakaoMapService.get(keyword, page, x, y, radius);
@@ -56,7 +57,7 @@ public class ShopController {
             return new GetListResponse(page_count, count, results);
 
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "검색 실패");
+            throw new ShopSearchFailException("검색에 실패했습니다.");
         }
     }
 

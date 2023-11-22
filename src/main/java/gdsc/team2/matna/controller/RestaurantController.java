@@ -52,16 +52,6 @@ public class RestaurantController {
         return new Result(collect.size(), collect);
     }
 
-    // TODO update 기능
-//    @PutMapping("/api/restaurants/{id}")
-//    public UpdateRestaurantResponse updateRestaurant(
-//            @PathVariable("id") Long id,
-//            @RequestBody @Valid UpdateRestaurantRequest request) {
-//
-//    }
-
-
-
     @Data
     static class CreateRestaurantRequest {
         @NotEmpty(message = "식당 이름은 필수항목 입니다")

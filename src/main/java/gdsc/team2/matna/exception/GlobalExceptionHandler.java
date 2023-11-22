@@ -93,4 +93,20 @@ public class GlobalExceptionHandler {
 
     }
 
+    // 음식점 검색 실패
+    @ExceptionHandler(ShopSearchFailException.class)
+    public ResponseEntity<ErrorResponse> handleShopSearchFailException(ShopSearchFailException e){
+        ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+        log.error("[error occurred] ShopSearchFailException : " + e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    // 존재하지 않는 음식점
+    @ExceptionHandler(ShopNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleShopNotFoundException(ShopNotFoundException e){
+        ErrorResponse response = new ErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage());
+        log.error("[error occurred] ShopNotFoundException : " + e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
 }
