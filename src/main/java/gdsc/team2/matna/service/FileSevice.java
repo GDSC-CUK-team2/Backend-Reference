@@ -47,7 +47,6 @@ public class FileSevice {
         if (matcher.find()) {
             uuid = matcher.group(1);
         }
-
         return uuid;
     }
 
@@ -106,10 +105,8 @@ public class FileSevice {
             System.out.println("The object " + objectName + " wasn't found in " + bucketName);
             return;
         }
-
         Storage.BlobSourceOption precondition =
                 Storage.BlobSourceOption.generationMatch(blob.getGeneration());
-
         storage.delete(bucketName, objectName, precondition);
 
     }
