@@ -1,7 +1,4 @@
 spring:
-  profiles:
-    include: security
-
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/matna_db?serverTimezone=Asia/Seoul
@@ -10,7 +7,7 @@ spring:
   jpa:
     generate-ddl: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     properties:
       hibernate:
         show-sql: true
