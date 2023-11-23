@@ -1,5 +1,6 @@
 package gdsc.team2.matna.repository;
 
+
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import gdsc.team2.matna.dto.RestaurantSearchDto;
 import gdsc.team2.matna.entity.QFoodType;
@@ -66,5 +67,18 @@ public class RestaurantRepository {
         private Integer offset;
         private Integer limit;
     }
+
+=======
+import gdsc.team2.matna.entity.RestaurantEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+
+@Repository
+public interface RestaurantRepository extends JpaRepository<RestaurantEntity,Long> {
+
+
+    @Override
+    boolean existsById(Long restaurantId);
 
 }

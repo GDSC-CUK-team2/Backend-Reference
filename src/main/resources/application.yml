@@ -8,6 +8,7 @@ spring:
     username: root
     password: 1234
   jpa:
+    database: mysql
     generate-ddl: true
     hibernate:
       ddl-auto: create
@@ -21,10 +22,28 @@ spring:
       port: 6379
       host: localhost
 
-#logging:
-#  level:
-#    org.hibernate.SQL: debug
-#    org.hibernate.type: trace
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled=true:
+  cloud:
+    gcp:
+      storage:
+        credentials:
+          location: classpath:applied-card-403302-4a5091591256.json
+        project-id: applied-card-403302
+        bucket: matna-bucket
+
+server:
+  port=8080
+error:
+    include-stacktrace=never
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
+    org.springframework: DEBUG
+
 
 #로깅 - 배포시 삭제
 decorator:
