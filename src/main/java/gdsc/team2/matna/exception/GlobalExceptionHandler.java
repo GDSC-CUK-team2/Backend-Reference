@@ -93,4 +93,12 @@ public class GlobalExceptionHandler {
 
     }
 
+    // 음식점 검색 실패
+    @ExceptionHandler(ShopSearchFailException.class)
+    public ResponseEntity<ErrorResponse> handleShopSearchFailException(ShopSearchFailException e){
+        ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+        log.error("[error occurred] ShopSearchFailException : " + e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
 }

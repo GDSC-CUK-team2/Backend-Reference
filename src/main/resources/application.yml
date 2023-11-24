@@ -8,6 +8,9 @@
 
 #server db
 spring:
+  profiles:
+    include: security
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${application.spring.datasource.url}
