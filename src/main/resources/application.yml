@@ -1,9 +1,18 @@
+##local db
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/matna_db?serverTimezone=Asia/Seoul
+#    username: root
+#    password: 1234
+
+#server db
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/matna_db?serverTimezone=Asia/Seoul
-    username: root
-    password: 1234
+    url: ${application.spring.datasource.url}
+    username: ${application.spring.datasource.username}
+    password: ${application.spring.datasource.password}
   jpa:
     database: mysql
     generate-ddl: true
@@ -22,7 +31,7 @@ spring:
   mvc:
     hiddenmethod:
       filter:
-        enabled=true:
+        enabled: true
   cloud:
     gcp:
       storage:
@@ -32,9 +41,8 @@ spring:
         bucket: matna-bucket
 
 server:
-  port=8080
-error:
-    include-stacktrace=never
+  error:
+      include-stacktrace: never
 logging:
   level:
     org.hibernate.SQL: debug
