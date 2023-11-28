@@ -36,7 +36,7 @@ public class ReviewService extends  FileSevice{
     @Autowired
     ReviewRepository reviewRepository;
     @Autowired
-    RestaurantRepository restaurantRepository;
+    ShopRepository shopRepository;
     @Autowired
     UserRepository userRepository;
 
@@ -59,7 +59,7 @@ public class ReviewService extends  FileSevice{
         //restaurant ID 에 대한 처리 필요
 
         try {
-            if (restaurantRepository.existsById(reviewDTO.getRestaurantId()) && userRepository.existsById(reviewDTO.getUserId())) {
+            if (shopRepository.existsByShopUid(reviewDTO.getShopId()) && userRepository.existsById(reviewDTO.getUserId())) {
 
 
 
@@ -85,8 +85,8 @@ public class ReviewService extends  FileSevice{
     }
 
     //댓글 조회
-    public List<ReviewResponseDTO> getReviews(Long restaurantId) {
-        List<ReviewEntity> reviewEntities = reviewRepository.findAllByRestaurantId(restaurantId);
+    public List<ReviewResponseDTO> getReviews(Long shopId) {
+        List<ReviewEntity> reviewEntities = reviewRepository.findAllByShopId(shopId);
         List<ReviewResponseDTO> reviewResponses = new ArrayList<>();
 
         for (ReviewEntity reviewEntity : reviewEntities) {
@@ -159,12 +159,12 @@ public class ReviewService extends  FileSevice{
     }
 
     //댓글 삭제
-    public synchronized ResponseEntity deleteReview(Long restaurantId, Long reviewId) {
+    public synchronized ResponseEntity deleteReview(Long shopId, Long reviewId) {
 
         try {
             if (reviewRepository.existsById(reviewId)) {
                 //삭제하려는 게시물이 해당 식당 리뷰 인지 확인
-                if (reviewRepository.findAllByRestaurantId(restaurantId) != null) {
+                if (reviewRepository.findAllByShopId(shopId) != null) {
                     //리뷰 DB 에서 해당하는 리뷰 Entity 를 가져온다
 
                     List<ReviewImageEntity> reviewImageEntities = reviewImageRepository.findAllByReviewId(reviewId);
@@ -214,7 +214,7 @@ public class ReviewService extends  FileSevice{
     public ResponseEntity modifyReview(Long reviewId, ReviewDTO reviewDTO,List<MultipartFile> images) {
     try {
         //해당 레스토랑이 있는지
-        if (restaurantRepository.existsById(reviewDTO.getRestaurantId())) {
+        if (shopRepository.existsByShopUid(reviewDTO.getShopId())) {
             //리뷰 아이디가 존재하는지
             if (reviewRepository.existsById(reviewId)) {
                 //해당하는 reviewEntity 받아옴
