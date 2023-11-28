@@ -1,9 +1,5 @@
 package gdsc.team2.matna.service;
 
-import gdsc.team2.matna.entity.Address;
-import gdsc.team2.matna.entity.FoodType;
-import gdsc.team2.matna.entity.Restaurant;
-import gdsc.team2.matna.entity.RestaurantFoodType;
 import gdsc.team2.matna.repository.RestaurantRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,8 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
