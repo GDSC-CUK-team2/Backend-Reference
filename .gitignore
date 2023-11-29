@@ -41,3 +41,6 @@ out/
 
 ### api-key ###
 /src/main/resources/application-security.yml
+
+## mac ##
+*.DS_Store
