@@ -3,8 +3,11 @@ package gdsc.team2.matna.controller;
 import gdsc.team2.matna.dto.ReviewDTO;
 import gdsc.team2.matna.dto.ReviewResponseDTO;
 import gdsc.team2.matna.entity.ReviewEntity;
+import gdsc.team2.matna.entity.Shop;
 import gdsc.team2.matna.etc.Rating;
+import gdsc.team2.matna.repository.ShopRepository;
 import gdsc.team2.matna.service.ReviewService;
+import gdsc.team2.matna.service.ShopService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,16 +38,16 @@ public class ReviewController {
 
 
     //댓글 작성
-    @PostMapping("/{restaurantId}/reviews")
+    @PostMapping("/{shopId}/reviews")
     public ResponseEntity saveReview(
-            @PathVariable Long restaurantId,
+            @PathVariable Long shopId,
             @RequestParam("userId") Long userId,
             @RequestParam("rating") Rating rating,
             @RequestParam("comment") String comment,
             @RequestParam("image") List<MultipartFile> images){
 
-        ReviewDTO reviewDTO = new ReviewDTO( userId,restaurantId,rating,comment);
-        reviewDTO.setRestaurantId(restaurantId);
+        ReviewDTO reviewDTO = new ReviewDTO( userId,shopId,rating,comment);
+        reviewDTO.setShopId(shopId);
         reviewDTO.setCreatedDate(LocalDateTime.now());
 
         ResponseEntity response = reviewService.reviewSave(reviewDTO,images);
@@ -53,28 +56,28 @@ public class ReviewController {
     }
 
     //댓글조회
-    @GetMapping("/{restaurantId}/reviews")
-    public List<ReviewResponseDTO> getReview(@PathVariable Long restaurantId){
-        return reviewService.getReviews(restaurantId);
+    @GetMapping("/{shopId}/reviews")
+    public List<ReviewResponseDTO> getReview(@PathVariable Long shopId){
+        return reviewService.getReviews(shopId);
     }
 
     //댓글 삭제
-    @DeleteMapping("/{restaurantId}/reviews/{reviewId}")
-    public void deleteReview(@PathVariable Long restaurantId,@PathVariable Long reviewId) {
-        reviewService.deleteReview(restaurantId, reviewId);
+    @DeleteMapping("/{shopId}/reviews/{reviewId}")
+    public void deleteReview(@PathVariable Long shopId,@PathVariable Long reviewId) {
+        reviewService.deleteReview(shopId, reviewId);
     }
-    //뎃글수정
-    @PatchMapping ("/{restaurantId}/reviews/{reviewId}")
+    //댓글수정
+    @PatchMapping ("/{shopId}/reviews/{reviewId}")
     public ResponseEntity editReview (
-            @PathVariable Long restaurantId,@PathVariable Long reviewId,
+            @PathVariable Long shopId,@PathVariable Long reviewId,
             @RequestParam("userId") Long userId,
             @RequestParam("rating") Rating rating,
             @RequestParam("comment") String comment,
             @RequestParam("image") List<MultipartFile> images) {
 
-        ReviewDTO reviewDTO = new ReviewDTO(userId, restaurantId, rating, comment);
+        ReviewDTO reviewDTO = new ReviewDTO(userId, shopId, rating, comment);
         reviewDTO.setReviewId(reviewId);
-        reviewDTO.setRestaurantId(restaurantId);
+        reviewDTO.setShopId(shopId);
         reviewDTO.setUpdatedDate(LocalDateTime.now());
 
             ResponseEntity response = reviewService.modifyReview(reviewId, reviewDTO, images);

@@ -1,11 +1,6 @@
 package gdsc.team2.matna.controller;
 
-import gdsc.team2.matna.entity.Address;
-import gdsc.team2.matna.entity.Restaurant;
 import gdsc.team2.matna.service.KakaoMapService;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,11 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor

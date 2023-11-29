@@ -18,7 +18,7 @@ import java.util.Date;
 public class ReviewDTO
 {
     private Long reviewId;
-    private Long restaurantId;
+    private Long shopId;
     private Long userId;
     private Rating rating;
     public String comment;
@@ -31,7 +31,7 @@ public class ReviewDTO
     public static ReviewDTO toDTO(ReviewEntity reviewEntity){
         return ReviewDTO.builder()
                 .reviewId(reviewEntity.getReviewId())
-                .restaurantId(reviewEntity.getRestaurantId())
+                .shopId(reviewEntity.getShopId())
                 .userId(reviewEntity.getUserId())
                 .rating(Rating.valueOf(String.valueOf(reviewEntity.getRating())))
                 .comment(reviewEntity.getComment())
@@ -41,19 +41,19 @@ public class ReviewDTO
 
     }
 
-        public ReviewDTO(Long userId,Long restaurantId, Rating rating, String comment, MultipartFile image){
+        public ReviewDTO(Long userId,Long shopId, Rating rating, String comment, MultipartFile image){
             this.userId = userId;
             this.rating= rating;
             this.comment= comment;
             this.image= image;
-            this.restaurantId =restaurantId;
+            this.shopId = shopId;
         }
 
-    public ReviewDTO(Long userId,Long restaurantId, Rating rating, String comment){
+    public ReviewDTO(Long userId,Long shopId, Rating rating, String comment){
         this.userId = userId;
         this.rating= rating;
         this.comment= comment;
-        this.restaurantId =restaurantId;
+        this.shopId = shopId;
     }
 
     public ReviewDTO(ReviewDTO reviewDTO){

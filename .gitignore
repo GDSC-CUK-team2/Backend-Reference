@@ -40,4 +40,7 @@ out/
 .vscode/
 
 ### api-key ###
-application-security.yml
+/src/main/resources/application-security.yml
+
+## mac ##
+*.DS_Store
