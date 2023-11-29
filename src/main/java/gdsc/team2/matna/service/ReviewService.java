@@ -7,6 +7,7 @@ import gdsc.team2.matna.entity.FileEntity;
 import gdsc.team2.matna.entity.ReviewEntity;
 import gdsc.team2.matna.entity.ReviewImageEntity;
 
+import gdsc.team2.matna.entity.Shop;
 import gdsc.team2.matna.repository.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.LockModeType;
@@ -40,6 +41,9 @@ public class ReviewService extends  FileSevice{
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    ShopService shopService;
+
 @Autowired
     FileRepository fileRepository;
 
@@ -61,7 +65,11 @@ public class ReviewService extends  FileSevice{
         try {
             if (shopRepository.existsByShopUid(reviewDTO.getShopId()) && userRepository.existsById(reviewDTO.getUserId())) {
 
-
+                // 식당 업데이트
+                Shop shop = shopService.findByUid(reviewDTO.getShopId());
+                shop.addReview();
+                shop.addRating(reviewDTO.getRating().getPoint());
+                shopRepository.save(shop);
 
                 //DB에 저장하기 위한 객체 생성 후 DB 저장
                 ReviewEntity reviewEntity = ReviewEntity.registerComment(reviewDTO);
@@ -190,6 +198,13 @@ public class ReviewService extends  FileSevice{
                             }
 
                         }
+                        // 식당 업데이트
+                        ReviewEntity review = reviewRepository.findById(reviewId).get();
+                        Shop shop = shopService.findByUid(shopId);
+                        shop.subReview();
+                        shop.subRating(review.getRating().getPoint());
+                        shopRepository.save(shop);
+
                         reviewRepository.deleteById(reviewId);
                         return ResponseEntity.ok("리뷰가 삭제되었습니다");
                     }
@@ -254,6 +269,13 @@ public class ReviewService extends  FileSevice{
                         uploadReviewImage(images, reviewId);
                     }
                     //바로 셋팅
+
+                    // 식당 업데이트
+                    Shop shop = shopService.findByUid(reviewDTO.getShopId());
+                    shop.subRating(reviewEntity.getRating().getPoint());
+                    shop.addRating(reviewDTO.getRating().getPoint());
+                    shopRepository.save(shop);
+
                     //이미지 없는 경우 바로 review 만 수정
                     reviewEntity.setRating(reviewDTO.getRating());
                     reviewEntity.setComment(reviewDTO.getComment());

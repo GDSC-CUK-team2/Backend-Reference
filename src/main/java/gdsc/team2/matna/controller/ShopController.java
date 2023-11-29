@@ -82,7 +82,7 @@ public class ShopController {
     static class KakaoShop {
         private Long id;
         private String name;
-        private Float rating;
+        private String rating;
         private String address;
         private String food_type;
         private Integer view;
@@ -92,9 +92,9 @@ public class ShopController {
             this.id = shop.getShopUid();
             this.name = map.get("place_name");
             if (shop.getReview() == 0) {
-                this.rating = 0.0f;
+                this.rating = "0.0";
             } else {
-                this.rating = (float) shop.getSumRating() / (float) shop.getReview();
+                this.rating = String.format("%.1f",(float) shop.getSumRating() / (float) shop.getReview());
             }
             this.address = map.get("address_name");
             this.food_type = map.get("category_name");
@@ -105,9 +105,9 @@ public class ShopController {
             this.id = shop.getShopUid();
             this.name = shop.getName();
             if (shop.getReview() == 0) {
-                this.rating = 0.0f;
+                this.rating = "0.0";
             } else {
-                this.rating = (float) shop.getSumRating() / (float) shop.getReview();
+                this.rating = String.format("%.1f",(float) shop.getSumRating() / (float) shop.getReview());
             }
             this.address = shop.getAddress();
             this.food_type = shop.getFoodType();
