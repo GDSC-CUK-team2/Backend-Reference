@@ -13,15 +13,6 @@ import java.util.Optional;
 public class ShopService {
     private final ShopRepository shopRepository;
 
-    public Shop getShop(Long shopId) {
-        Optional<Shop> shop = shopRepository.findById(shopId);
-        if (shop.isPresent()) {
-            return shop.get();
-        } else {
-            throw new ResourceNotFoundException("음식점을 찾을 수 없습니다.");
-        }
-    }
-
     public Shop findByUid(Long shopUid) {
         Optional<Shop> shop = shopRepository.findByShopUid(shopUid);
         if (shop.isPresent()) {

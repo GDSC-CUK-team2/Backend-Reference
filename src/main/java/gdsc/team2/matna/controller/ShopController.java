@@ -1,6 +1,5 @@
 package gdsc.team2.matna.controller;
 
-import gdsc.team2.matna.entity.Address;
 import gdsc.team2.matna.entity.Shop;
 import gdsc.team2.matna.exception.ResourceNotFoundException;
 import gdsc.team2.matna.exception.ShopSearchFailException;
@@ -9,11 +8,7 @@ import gdsc.team2.matna.service.ShopService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.server.ResponseStatusException;
 import gdsc.team2.matna.service.KakaoMapService;
 
 import java.util.ArrayList;
@@ -28,6 +23,7 @@ public class ShopController {
 
     private final KakaoMapService kakaoMapService;
     private final ShopService shopService;
+    private final ShopRepository shopRepository;
 
     @GetMapping("")
     public GetListResponse search(@RequestParam(required = false) String page,
@@ -62,6 +58,18 @@ public class ShopController {
         }
     }
 
+    @GetMapping("/{shopId}")
+    public KakaoShop searchOne(@PathVariable Long shopId){
+        try {
+            Shop shop = shopService.findByUid(shopId);
+            shop.addView();
+            shopRepository.save(shop);
+            return new KakaoShop(shop);
+        } catch (Exception e) {
+            throw new ShopSearchFailException("검색에 실패했습니다.");
+        }
+    }
+
     @Data
     @AllArgsConstructor
     static class GetListResponse {
@@ -83,9 +91,26 @@ public class ShopController {
         public KakaoShop(Map<String, String> map, Shop shop) {
             this.id = shop.getShopUid();
             this.name = map.get("place_name");
-            this.rating = shop.getRating();
+            if (shop.getReview() == 0) {
+                this.rating = 0.0f;
+            } else {
+                this.rating = (float) shop.getSumRating() / (float) shop.getReview();
+            }
             this.address = map.get("address_name");
             this.food_type = map.get("category_name");
+            this.view = shop.getView();
+            this.review = shop.getReview();
+        }
+        public KakaoShop(Shop shop) {
+            this.id = shop.getShopUid();
+            this.name = shop.getName();
+            if (shop.getReview() == 0) {
+                this.rating = 0.0f;
+            } else {
+                this.rating = (float) shop.getSumRating() / (float) shop.getReview();
+            }
+            this.address = shop.getAddress();
+            this.food_type = shop.getFoodType();
             this.view = shop.getView();
             this.review = shop.getReview();
         }
