@@ -57,7 +57,7 @@ public class ReviewController {
 
     //댓글조회
     @GetMapping("/{shopId}/reviews")
-    public List<ReviewResponseDTO> getReview(@PathVariable Long shopId){
+    public  ResponseEntity<List<ReviewResponseDTO>> getReview(@PathVariable Long shopId){
         return reviewService.getReviews(shopId);
     }
 
