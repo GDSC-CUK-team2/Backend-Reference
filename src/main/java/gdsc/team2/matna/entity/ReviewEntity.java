@@ -29,7 +29,7 @@ public class ReviewEntity {
     private Long reviewId;
 
     @Column
-    private Long restaurantId;
+    private Long shopId;
 
     @Column
     private Long userId;
@@ -55,7 +55,7 @@ public class ReviewEntity {
 
     public void ReviewEntity(ReviewDTO reviewDTO,String imgUrl){
         this.reviewId =reviewDTO.getReviewId();
-        this.restaurantId = reviewDTO.getRestaurantId();
+        this.shopId = reviewDTO.getShopId();
         this.userId = reviewDTO.getUserId();
         this.rating = reviewDTO.getRating();
         this.comment=reviewDTO.getComment();
@@ -67,7 +67,7 @@ public class ReviewEntity {
     public static ReviewEntity registerComment(ReviewDTO reviewDTO){
         return ReviewEntity.builder()
                 .reviewId(reviewDTO.getReviewId())
-                .restaurantId(reviewDTO.getRestaurantId())
+                .shopId(reviewDTO.getShopId())
                 .userId(reviewDTO.getUserId())
                 .rating(reviewDTO.getRating())
                 .comment(reviewDTO.getComment())
@@ -78,7 +78,7 @@ public class ReviewEntity {
     public static ReviewEntity toEnitty(ReviewDTO reviewDTO){
         return ReviewEntity.builder()
                 .reviewId(reviewDTO.getReviewId())
-                .restaurantId(reviewDTO.getRestaurantId())
+                .shopId(reviewDTO.getShopId())
                 .userId(reviewDTO.getUserId())
                 .rating(reviewDTO.getRating())
                 .comment(reviewDTO.getComment())
