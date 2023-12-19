@@ -1,0 +1,72 @@
+##local db
+#spring:
+#  profiles:
+#    include: security
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/matna_db?serverTimezone=Asia/Seoul
+#    username: root
+#    password: 1234
+#
+#server db
+spring:
+  profiles:
+    include: security
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${application.spring.datasource.url}
+    username: ${application.spring.datasource.username}
+    password: ${application.spring.datasource.password}
+
+  jpa:
+    database: mysql
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show-sql: true
+        format_sql: true
+        default_batch_fetch_size: 1000
+  data:
+    redis:
+      port: 6379
+      host: localhost
+
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  cloud:
+    gcp:
+      storage:
+        credentials:
+          location: classpath:applied-card-403302-4a5091591256.json
+        project-id: applied-card-403302
+        bucket: matna-bucket
+
+server:
+  error:
+      include-stacktrace: never
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
+    org.springframework: DEBUG
+
+
+#로깅 - 배포시 삭제
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
+      multiline: true
+      logging: slf4j
+
+#JWT
+app:
+  jwt:
+    secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+    expiration:
+      milliseconds: 604800000
