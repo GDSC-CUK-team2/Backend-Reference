@@ -23,10 +23,8 @@ public class UserService {
     }
 
     @Transactional
-    public UserGetDto getUserProfile(Long id, Long currentUserId) {
-        if(!id.equals(currentUserId)){
-            throw new AccessDeniedException("접근 권한이 없습니다.");
-        }
+    public UserGetDto getUserProfile(Long id) {
+
         User user = userRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("회원이 존재하지 않습니다."));
         return UserGetDto.toDto(user);
     }

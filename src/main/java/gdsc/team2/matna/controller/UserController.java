@@ -33,9 +33,9 @@ public class UserController {
 
     @GetMapping("/{userId}/profile")
     @Operation(summary = "프로필 조회")
-    public UserGetDto getUserProfile(@PathVariable("userId") Long id, @AuthenticationPrincipal User user){
+    public UserGetDto getUserProfile(@PathVariable("userId") Long id){
         log.info("현재 회원 프로필 정보 조회 start");
-        UserGetDto userGetDto = userService.getUserProfile(id, user.getId());
+        UserGetDto userGetDto = userService.getUserProfile(id);
         log.info("현재 회원 프로필 정보 조회 end");
         return userGetDto;
     }
