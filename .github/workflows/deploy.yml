@@ -31,8 +31,8 @@ jobs:
       - name: Set environment values
         run: |
           cd ./src/main/resources
-          touch ./application.yml
-          echo "${{ secrets.APPLICATION_SECURE_YML }}" > ./application.yml
+          touch ./application-security.yml
+          echo "${{ secrets.APPLICATION_SECURE_YML }}" > ./application-security.yml
           touch ./applied-card-403302-4a5091591256.json
           echo "${{ secrets.GCP_JSON }}" > ./applied-card-403302-4a5091591256.json
         shell: bash
