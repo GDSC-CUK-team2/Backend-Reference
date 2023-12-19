@@ -7,7 +7,7 @@
 #    url: jdbc:mysql://localhost:3306/matna_db?serverTimezone=Asia/Seoul
 #    username: root
 #    password: 1234
-#
+
 #server db
 spring:
   profiles:
@@ -23,7 +23,7 @@ spring:
     database: mysql
     generate-ddl: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         show-sql: true
@@ -56,13 +56,13 @@ logging:
     org.springframework: DEBUG
 
 
-#로깅 - 배포시 삭제
-decorator:
-  datasource:
-    p6spy:
-      enable-logging: true
-      multiline: true
-      logging: slf4j
+##로깅 - 배포시 삭제
+#decorator:
+#  datasource:
+#    p6spy:
+#      enable-logging: true
+#      multiline: true
+#      logging: slf4j
 
 #JWT
 app:
