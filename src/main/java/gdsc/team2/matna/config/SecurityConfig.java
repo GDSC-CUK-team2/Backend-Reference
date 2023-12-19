@@ -57,8 +57,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) ->
                         authorize
                                 .requestMatchers("/api/auth/**").permitAll()
-                                .requestMatchers("/api/restaurants/**").permitAll()
-                                .requestMatchers("/api/map/**").permitAll()
+                                .requestMatchers("/api/restaurants/**").permitAll() // 디버깅용 일시 해제
                                 .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
                                 .anyRequest().authenticated()
 
