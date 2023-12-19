@@ -41,6 +41,7 @@ out/
 
 ### api-key ###
 /src/main/resources/application.yml
+/src/main/resources/application-security.yml
 
 ### gcp ###
 /src/main/resources/applied-card-403302-4a5091591256.json
