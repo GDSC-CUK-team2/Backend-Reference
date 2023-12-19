@@ -84,6 +84,8 @@ public class ShopController {
         private String name;
         private String rating;
         private String address;
+        private String x;
+        private String y;
         private String food_type;
         private Integer view;
         private Integer review;
@@ -96,6 +98,8 @@ public class ShopController {
             } else {
                 this.rating = String.format("%.1f",(float) shop.getSumRating() / (float) shop.getReview());
             }
+            this.x = map.get("x");
+            this.y = map.get("y");
             this.address = map.get("address_name");
             this.food_type = map.get("category_name");
             this.view = shop.getView();
@@ -110,6 +114,8 @@ public class ShopController {
                 this.rating = String.format("%.1f",(float) shop.getSumRating() / (float) shop.getReview());
             }
             this.address = shop.getAddress();
+            this.x = shop.getX();
+            this.y = shop.getY();
             this.food_type = shop.getFoodType();
             this.view = shop.getView();
             this.review = shop.getReview();
