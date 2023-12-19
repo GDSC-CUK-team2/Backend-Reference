@@ -26,6 +26,12 @@ public class Shop {
     @Column(name = "address", nullable = false)
     private String address;
 
+    @Column(name = "x", nullable = false)
+    private String x;
+
+    @Column(name = "y", nullable = false)
+    private String y;
+
     @Column(name = "sum_rating", nullable = false)
     private Integer sumRating = 0;
 
@@ -37,12 +43,16 @@ public class Shop {
 
     public static Shop createShop(Long shopUid,
                                   String address,
+                                  String x,
+                                  String y,
                                   String name,
                                   String foodType) {
         Shop shop = new Shop();
         shop.setShopUid(shopUid);
         shop.setName(name);
         shop.setAddress(address);
+        shop.setX(x);
+        shop.setY(y);
         shop.setFoodType(foodType);
         return shop;
     }

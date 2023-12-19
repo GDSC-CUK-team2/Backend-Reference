@@ -63,10 +63,12 @@ public class KakaoMapService {
                 String address = map.get("address_name");
                 String name = map.get("place_name");
                 String foodType = map.get("category_name");
+                String outX = map.get("x");
+                String outY = map.get("y");
                 if (shopRepository.findByShopUid(shopUid).isPresent()) {
                     continue;
                 }
-                Shop shop = Shop.createShop(shopUid, address, name, foodType);
+                Shop shop = Shop.createShop(shopUid, address, outX, outY, name, foodType);
                 shopRepository.save(shop);
             }
         }
