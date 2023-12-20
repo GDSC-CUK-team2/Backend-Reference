@@ -56,6 +56,8 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests((authorize) ->
                         authorize
+
+                                .requestMatchers("").permitAll()
                                 .requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/api/map/**").permitAll()
                                 .requestMatchers("/api/restaurants/**").permitAll()
@@ -78,9 +80,14 @@ public class SecurityConfig {
         config.setAllowCredentials(true);
         config.addAllowedOrigin("http://localhost:3000");
         config.addAllowedOrigin("https://34.22.99.123");
+        config.addAllowedOrigin("https://35.216.62.134");
+        config.addAllowedOrigin("https://35.216.62.134:80");
+        config.addAllowedOrigin("https://35.216.62.134:3000");
+        config.addAllowedOrigin("https://35.216.62.134:8080");
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setExposedHeaders(List.of("*"));
+
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
